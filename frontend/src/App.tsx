@@ -1,18 +1,30 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
-import GardenPlannerPage from './pages/GardenPlannerPage';
+import GardenDesignerPage from './pages/GardenDesignerPage';
+import GardenBedEditorPage from './pages/GardenBedEditorPage';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <Navigation />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route path="/planner" component={GardenPlannerPage} />
-      </Switch>
-    </div>
+    <Router>
+      <div className="App">
+        <header>
+          <h1>Garden Planner</h1>
+          <Navigation />
+        </header>
+        <main className="container">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/designer" element={<GardenDesignerPage />} />
+            <Route path="/bed-editor/:bedId" element={<GardenBedEditorPage />} />
+          </Routes>
+        </main>
+        <footer>
+          <p>&copy; 2024 Garden Planner. All rights reserved.</p>
+        </footer>
+      </div>
+    </Router>
   );
 };
 

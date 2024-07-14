@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Plant } from '../types';
 import { fetchPlantsAPI } from '../services/api';
+import { Plant } from '../types';
 
 interface PlantState {
   plants: Plant[];
@@ -14,10 +14,13 @@ const initialState: PlantState = {
   error: null,
 };
 
-export const fetchPlants = createAsyncThunk('plants/fetchPlants', async () => {
-  const response = await fetchPlantsAPI();
-  return response.data;
-});
+export const fetchPlants = createAsyncThunk(
+  'plants/fetchPlants',
+  async () => {
+    const response = await fetchPlantsAPI();
+    return response.data;
+  }
+);
 
 const plantSlice = createSlice({
   name: 'plants',
@@ -34,7 +37,7 @@ const plantSlice = createSlice({
       })
       .addCase(fetchPlants.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message ?? null;
+        state.error = action.error.message || 'An error occurred';
       });
   },
 });

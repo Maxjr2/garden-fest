@@ -1,23 +1,32 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store';
+import { fetchPlants } from '../redux/plantSlice';
 import GardenMap from '../components/GardenMap';
 import PlantList from '../components/PlantList';
-import { fetchPlants } from '../redux/plantSlice';
-import { RootState } from '../redux/store';
 
 const GardenPlannerPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const plants = useSelector((state: RootState) => state.plants.plants);
+  const status = useSelector((state: RootState) => state.plants.status);
 
   useEffect(() => {
-    dispatch(fetchPlants());
-  }, [dispatch]);
+    if (status === 'idle') {
+      dispatch(fetchPlants());
+    }
+  }, [status, dispatch]);
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      <h1>Garden Planner</h1>
-      <GardenMap plants={plants} />
-      <PlantList plants={plants} />
+      <h2>Garden Planner</h2>
+      <div className="garden-layout">
+        <GardenMap plants={plants} />
+        <PlantList plants={plants} />
+      </div>
     </div>
   );
 };
