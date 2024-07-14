@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 from app.schemas.plant import Plant
+from .plant import Plant
 
 class GardenBase(BaseModel):
     name: str
