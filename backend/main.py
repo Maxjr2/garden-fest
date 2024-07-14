@@ -1,13 +1,12 @@
-# backend/app/main.py
-from fastapi import FastAPI
-from app.api.routes import garden, plant
+import uvicorn
+from app.main import app
 from app.core.config import settings
 
-app = FastAPI(title=settings.PROJECT_NAME)
-
-app.include_router(garden.router, prefix="/api/gardens", tags=["gardens"])
-app.include_router(plant.router, prefix="/api/plants", tags=["plants"])
-
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(
+        "app.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+        log_level="info"
+    )
